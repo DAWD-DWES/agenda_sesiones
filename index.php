@@ -15,13 +15,11 @@ if (filter_has_var(INPUT_POST, 'enviar')) {
                     ['options' => ['regexp' => "/^\+?[0-9]{9,15}$/"]]) === false;
     $error = $nombreErr || $telefonoErr;
     if (!$error) {
-        if (!empty($nombre)) {
             if (empty($telefono)) {
                 unset($agenda[$nombre]);
             } else {
                 $agenda[$nombre] = $telefono;
             }
-        }
     }
 } else if (filter_has_var(INPUT_GET, 'limpiar')) {
     $agenda = [];
