@@ -6,7 +6,6 @@ define('TELEFONO_INVALIDO', '**Teléfono inválido');
 
 $agenda = $_SESSION['agenda'] ?? [];
 if (filter_has_var(INPUT_POST, 'enviar')) {
-    //  $agenda = (filter_input(INPUT_POST, 'agenda', FILTER_UNSAFE_RAW, FILTER_REQUIRE_ARRAY)) ?? array();
     $nombre = ucwords(strtolower(trim(filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_SPECIAL_CHARS))));
     $nombreErr = filter_var($nombre, FILTER_VALIDATE_REGEXP,
                     ['options' => ['regexp' => "/^[a-z A-Záéíóúñ]{3,25}$/"]]) === false;
@@ -21,7 +20,7 @@ if (filter_has_var(INPUT_POST, 'enviar')) {
                 $agenda[$nombre] = $telefono;
             }
     }
-} else if (filter_has_var(INPUT_GET, 'limpiar')) {
+} else if (filter_has_var(INPUT_GET, 'limpiar_contactos') || filter_has_var(INPUT_POST, 'limpiar_contactos')) {
     $agenda = [];
 }
 $_SESSION['agenda'] = $agenda;
@@ -72,8 +71,11 @@ $_SESSION['agenda'] = $agenda;
             <?php if (!empty($agenda)): ?>
                 <fieldset>
                     <legend>Vaciar Agenda</legend>
-                    <a class="submit red button" href="<?= "{$_SERVER['PHP_SELF']}?limpiar=1" ?>">Vaciar</a>
-                <!--    <input class="submit red" type="submit" formaction="<?= "{$_SERVER['PHP_SELF']}?limpiar=1" ?>"  value="Vaciar"> -->
+                    <input class="submit red" type="submit" value="Vaciar Agenda" name="limpiar_contactos">
+                            <!-- Otras maneras de enviar la petición al servidor 
+                            <input class="submit red" type="submit" formaction="<?= "{$_SERVER['PHP_SELF']}?limpiar_contactos" ?>"  value="Vaciar Agenda">
+                            <a href="<?= "{$_SERVER['PHP_SELF']}?limpiar_contactos" ?>"><input type="button" class="submit red" value="Vaciar Agenda"></a>
+                            <a class="submit red button" href="<?= "{$_SERVER['PHP_SELF']}?limpiar_contactos" ?>">Vaciar Agenda</a> -->
                 </fieldset>
             <?php endif ?>
         </form>
